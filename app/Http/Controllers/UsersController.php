@@ -53,13 +53,13 @@ class UsersController extends Controller
         return redirect()->route('users.show', [$user]);
     }
 
-     public function edit(User $user)
+    public function edit(User $user)
     {
         $this->authorize('update', $user);
         return view('users.edit', compact('user'));
     }
 
-     public function update(User $user, Request $request)
+    public function update(User $user, Request $request)
     {
         $this->authorize('update', $user);
         $this->validate($request, [
@@ -77,5 +77,13 @@ class UsersController extends Controller
         session()->flash('success', '个人资料更新成功！');
 
         return redirect()->route('users.show', $user);
+    }
+
+    public function destroy(User $user)
+    {
+        $this->authorize('destroy', $user);
+        $user->delete();
+        session()->flash('success', '成功删除用户！');
+        return back();
     }
 }
